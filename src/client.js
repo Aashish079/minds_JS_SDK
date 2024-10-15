@@ -12,6 +12,14 @@ class MindsClient{
             headers: {'Authorization': `Bearer ${this.apiKey}`}
         });
 
-        this.dataSource 
+        this.dataSource = new DataSource(this.client);
+        this.mind = new Mind(this.client);
+}
+
+static configure({apiKey, baseURL}){
+    config.apiKey = apiKey;
+    config.baseURL = baseURL || config.baseURL;
 }
 }
+
+module.exports = MindsClient;

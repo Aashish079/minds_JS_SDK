@@ -1,15 +1,19 @@
 {
   "name": "minds_js_sdk",
   "version": "1.0.0",
+  "description": "JavaScript SDK for Minds AI",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "babel src -d lib"
   },
+  "keywords": ["minds", "ai", "sdk"],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "axios": "^1.7.7"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6"
   }
 }
