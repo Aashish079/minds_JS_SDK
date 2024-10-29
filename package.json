@@ -1,17 +1,22 @@
 {
   "name": "minds_js_sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JavaScript SDK for Minds AI",
-  "main": "index.js",
+  "main": "src/client.js",
   "scripts": {
     "test": "jest",
     "build": "babel src -d lib"
   },
-  "keywords": ["minds", "ai", "sdk"],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "minds",
+    "ai",
+    "sdk"
+  ],
+  "author": "Aashish Karki",
+  "license": "MIT",
   "dependencies": {
-    "axios": "^1.7.7"
+    "axios": "^1.7.7",
+    "minds_js_sdk": "^1.0.1"
   },
   "devDependencies": {
     "jest": "^27.0.6"

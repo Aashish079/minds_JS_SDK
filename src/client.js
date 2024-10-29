@@ -13,7 +13,7 @@ class MindsClient{
         });
 
         this.dataSource = new DataSource(this.client);
-        this.mind = new Mind(this.client);
+        this.minds = new Mind(this.client);
 }
 
 static configure({apiKey, baseURL}){
