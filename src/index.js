@@ -1,2 +1,2 @@
-import Client from "./resources/client";
+import Client from "./resources/client.js";
 export { Client as MindsClient };

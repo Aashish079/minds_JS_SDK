@@ -1,9 +1,9 @@
 {
   "name": "minds_js_sdk",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "JavaScript SDK for Minds AI",
   "main": "src/index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "build": "babel src -d lib"
@@ -18,7 +18,7 @@
   "dependencies": {
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
-    "minds_js_sdk": "^1.0.3",
+    "minds_js_sdk": "^1.0.4",
     "openai": "^4.69.0"
   },
   "devDependencies": {
