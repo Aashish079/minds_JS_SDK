@@ -1,41 +1,81 @@
-const axios = require('axios');
-const DataSource = require('../../src/resources/dataSource');
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
+import Client from './client';
+import { ObjectNotFound, ObjectNotSupported } from './exception';
 
-jest.mock('axios');
-
-describe('DataSource', () => {
-  let dataSource;
-  let mockClient;
+describe('Datasources', () => {
+  let client;
+  let mock;
 
   beforeEach(() => {
-    mockClient = {
-      post: jest.fn(),
-      get: jest.fn(),
-      delete: jest.fn()
-    };
-    dataSource = new DataSource(mockClient);
+    client = new Client('test-api-key', 'https://staging.mdb.ai');
+    mock = new MockAdapter(client.api);
   });
 
-  test('create calls client.post with correct arguments', async () => {
-    const config = { name: 'test-source' };
-    await dataSource.create(config);
-    expect(mockClient.post).toHaveBeenCalledWith('/datasources', config);
+  afterEach(() => {
+    mock.reset();
   });
 
-  test('all calls client.get with correct arguments', async () => {
-    await dataSource.all();
-    expect(mockClient.get).toHaveBeenCalledWith('/datasources');
+  const sampleDatasource = {
+    name: 'test-db',
+    engine: 'postgres',
+    description: 'Test database',
+    connection_data: {
+      host: 'localhost',
+      port: 5432
+    }
+  };
+
+  describe('create', () => {
+    test('should create a new datasource', async () => {
+      mock.onPost('/api/datasources').reply(200, sampleDatasource);
+      mock.onGet('/api/datasources/test-db?check_connection=true').reply(200, sampleDatasource);
+
+      const result = await client.datasources.create(sampleDatasource);
+      expect(result).toEqual(sampleDatasource);
+    });
+
+    test('should replace existing datasource when replace=true', async () => {
+      mock.onGet('/api/datasources/test-db?check_connection=true').reply(200, sampleDatasource);
+      mock.onDelete('/api/datasources/test-db').reply(200, {});
+      mock.onPost('/api/datasources').reply(200, sampleDatasource);
+
+      const result = await client.datasources.create(sampleDatasource, true);
+      expect(result).toEqual(sampleDatasource);
+    });
   });
 
-  test('find calls client.get with correct arguments', async () => {
-    const name = 'test-source';
-    await dataSource.find(name);
-    expect(mockClient.get).toHaveBeenCalledWith(`/datasources/${name}`);
+  describe('get', () => {
+    test('should get datasource details', async () => {
+      mock.onGet('/api/datasources/test-db?check_connection=true').reply(200, sampleDatasource);
+
+      const result = await client.datasources.get('test-db');
+      expect(result).toEqual(sampleDatasource);
+    });
+
+    test('should throw ObjectNotSupported for invalid datasource type', async () => {
+      mock.onGet('/api/datasources/test-db?check_connection=true').reply(200, { name: 'test-db' });
+
+      await expect(client.datasources.get('test-db')).rejects.toThrow(ObjectNotSupported);
+    });
   });
 
-  test('destroy calls client.delete with correct arguments', async () => {
-    const name = 'test-source';
-    await dataSource.destroy(name);
-    expect(mockClient.delete).toHaveBeenCalledWith(`/datasources/${name}`);
+  describe('list', () => {
+    test('should list all valid datasources', async () => {
+      const datasources = [sampleDatasource, { name: 'invalid-ds' }];
+      mock.onGet('/api/datasources').reply(200, datasources);
+
+      const result = await client.datasources.list();
+      expect(result).toEqual([sampleDatasource]);
+    });
+  });
+
+  describe('drop', () => {
+    test('should delete a datasource', async () => {
+      mock.onDelete('/api/datasources/test-db').reply(200, { success: true });
+
+      const result = await client.datasources.drop('test-db');
+      expect(result).toEqual({ success: true });
+    });
   });
 });
