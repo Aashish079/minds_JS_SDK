@@ -17,6 +17,6 @@ const postgresConfig = {
     tables: ['TABLE-1', 'TABLE-2']
 };
 
-client.datasources.create(postgresConfig)
+client.dataSource.create(postgresConfig)
     .then(datasource => console.log('Data source created:', datasource))
     .catch(error => console.error('Error creating data source:', error));

@@ -1,5 +1,5 @@
 import MindsClient from "./client";
-import DataSource from "./resources/dataSources";
-import Mind from "./resources/mind";
+import DataSource from "./resources/dataSourcesServices";
+import Mind from "./resources/MindService";
 
 export { MindsClient, DataSource, Mind };

@@ -1,7 +1,7 @@
 const MindsClient = require('minds_js_sdk');
 
-const client = new MindsClient("YOUR_API_KEY");
+const client = new MindsClient("APIKEY");
 
-client.minds.list()
+client.mind.all()
     .then(minds => console.log('All minds:', minds))
     .catch(error => console.error('Error listing minds:', error));

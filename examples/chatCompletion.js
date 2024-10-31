@@ -1,6 +1,6 @@
-const MindsClient = require('minds-js-sdk');
+const MindsClient = require('minds_js_sdk');
 
-const client = new MindsClient("YOUR_API_KEY");
+const client = new MindsClient("APIKEY");
 
 client.minds.get('my_mind')
     .then(mind => mind.completion({ message: "Hello, how are you?" }))
