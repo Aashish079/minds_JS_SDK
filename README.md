@@ -13,13 +13,13 @@ npm install mindsdb_js_sdk
 The SDK uses environment variables or constructor parameters for configuration:
 
 ```javascript
-import Client from 'mindsdb_js_sdk';
+import MindsClient from 'mindsdb_js_sdk';
 
 // Default configuration (uses MINDS_API_KEY env variable and staging URL)
-const client = new Client();
+const client = new MindsClient();
 
 // Optional: Specify custom API key and base URL
-const client = new Client('your_api_key', 'https://custom.mdb.ai');
+const client = new MindsClient('your_api_key', 'https://mdb.ai');
 ```
 
 ## Managing Data Sources

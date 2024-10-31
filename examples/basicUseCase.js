@@ -1,7 +1,7 @@
-import { Client } from 'minds_js_sdk';
+import { MindsClient } from 'minds_js_sdk';
 import readline from 'readline';
 
-const client = new Client('mdb_24cLWXfmr1S4e7r0pqkKt3mRqNfHFK6Fn3Em6qJwNIim');
+const client = new MindsClient('mdb_24cLWXfmr1S4e7r0pqkKt3mRqNfHFK6Fn3Em6qJwNIim');
 
 const rl = readline.createInterface({
   input: process.stdin,
