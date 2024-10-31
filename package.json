@@ -1,6 +1,6 @@
 {
   "name": "minds_js_sdk",
-  "version": "1.0.6",
+  "version": "1.0.8",
   "description": "JavaScript SDK for Minds AI",
   "main": "src/index.js",
   "type": "module",
