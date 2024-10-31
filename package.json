@@ -1,8 +1,8 @@
 {
   "name": "minds_js_sdk",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "JavaScript SDK for Minds AI",
-  "main": "src/client.js",
+  "main": "src/index.js",
   "type":"module",
   "scripts": {
     "test": "jest",

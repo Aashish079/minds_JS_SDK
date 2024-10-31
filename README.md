@@ -10,190 +10,192 @@ npm install mindsdb_js_sdk
 
 ## Configuration
 
-The SDK uses environment variables for configuration. Create a `.env` file in your project root:
-
-```env
-MINDS_API_KEY=your_api_key_here
-```
-
-## Getting Started
-
-### Initialize the Client
+The SDK uses environment variables or constructor parameters for configuration:
 
 ```javascript
-const { MindsClient } = require("mindsdb_js_sdk");
+import Client from 'mindsdb_js_sdk';
 
-// Default connection using https://mdb.ai
-const client = new MindsClient();
+// Default configuration (uses MINDS_API_KEY env variable and staging URL)
+const client = new Client();
 
-// Or specify custom configuration
-MindsClient.configure({
-  apiKey: "YOUR_API_KEY",
-  baseURL: "https://mdb.ai/api",
-});
-const client = new MindsClient();
+// Optional: Specify custom API key and base URL
+const client = new Client('your_api_key', 'https://custom.mdb.ai');
 ```
 
 ## Managing Data Sources
-
-The SDK supports creating and managing data sources for different database engines.
 
 ### Creating a Data Source
 
 ```javascript
 const datasourceConfig = {
-  name: "my_postgres_db",
-  engine: "postgres",
-  description: "My PostgreSQL database",
-  connectionData: {
-    host: "localhost",
+  name: 'my_postgres_db',
+  engine: 'postgres',
+  description: 'My PostgreSQL database',
+  connection_data: {
+    host: 'localhost',
     port: 5432,
-    database: "mydb",
-    user: "user",
-    password: "password",
+    database: 'mydb',
+    user: 'user',
+    password: 'password'
   },
-  tables: ["table1", "table2"],
+  tables: ['table1', 'table2']
 };
 
-// Create a new data source
-client.dataSource
-  .create(datasourceConfig)
-  .then((datasource) => console.log("Data source created:", datasource))
-  .catch((error) => console.error("Error:", error));
+// Create a new datasource
+try {
+  const datasource = await client.datasources.create(datasourceConfig);
+  console.log('Datasource created:', datasource);
+} catch (error) {
+  console.error('Error creating datasource:', error);
+}
 
-// Create or replace existing data source
-client.dataSource
-  .create(datasourceConfig, true)
-  .then((datasource) =>
-    console.log("Data source created/replaced:", datasource)
-  )
-  .catch((error) => console.error("Error:", error));
+// Create or replace existing datasource
+try {
+  const datasource = await client.datasources.create(datasourceConfig, true);
+  console.log('Datasource created/replaced:', datasource);
+} catch (error) {
+  console.error('Error creating/replacing datasource:', error);
+}
 ```
 
 ### Listing Data Sources
 
 ```javascript
-client.dataSource
-  .list()
-  .then((datasources) => console.log("Available data sources:", datasources))
-  .catch((error) => console.error("Error:", error));
+try {
+  const datasources = await client.datasources.list();
+  console.log('Available datasources:', datasources);
+} catch (error) {
+  console.error('Error listing datasources:', error);
+}
 ```
 
 ### Getting a Data Source
 
 ```javascript
-client.dataSource
-  .get("my_postgres_db")
-  .then((datasource) => console.log("Data source details:", datasource))
-  .catch((error) => console.error("Error:", error));
+try {
+  const datasource = await client.datasources.get('my_postgres_db');
+  console.log('Datasource details:', datasource);
+} catch (error) {
+  console.error('Error getting datasource:', error);
+}
 ```
 
 ### Deleting a Data Source
 
 ```javascript
-client.dataSource
-  .drop("my_postgres_db")
-  .then(() => console.log("Data source deleted"))
-  .catch((error) => console.error("Error:", error));
+try {
+  await client.datasources.drop('my_postgres_db');
+  console.log('Datasource deleted');
+} catch (error) {
+  console.error('Error deleting datasource:', error);
+}
 ```
 
 ## Managing Minds
-
-The SDK allows you to create and manage AI models called "minds".
 
 ### Creating a Mind
 
 ```javascript
 const mindConfig = {
-  name: "my_mind",
-  modelName: "gpt-4",
-  provider: "openai",
+  name: 'my_mind',
+  model_name: 'gpt-4',
+  provider: 'openai',
+  prompt_template: 'Use your database tools to answer the user\'s question: {{question}}',
+  datasources: ['my_postgres_db'],
   parameters: {
-    promptTemplate: "Your prompt template here",
-  },
-  datasources: ["my_postgres_db"],
+    // Additional model parameters
+  }
 };
 
-// Create a new mind
-client.minds
-  .create(mindConfig.name, mindConfig)
-  .then((mind) => console.log("Mind created:", mind))
-  .catch((error) => console.error("Error:", error));
-
-// Create or replace existing mind
-client.minds
-  .create(mindConfig.name, mindConfig, true)
-  .then((mind) => console.log("Mind created/replaced:", mind))
-  .catch((error) => console.error("Error:", error));
+try {
+  const mind = await client.minds.create('my_mind', mindConfig);
+  console.log('Mind created:', mind);
+} catch (error) {
+  console.error('Error creating mind:', error);
+}
 ```
 
 ### Listing Minds
 
 ```javascript
-client.minds
-  .list()
-  .then((minds) => console.log("Available minds:", minds))
-  .catch((error) => console.error("Error:", error));
+try {
+  const minds = await client.minds.list();
+  console.log('Available minds:', minds);
+} catch (error) {
+  console.error('Error listing minds:', error);
+}
 ```
 
 ### Getting a Mind
 
 ```javascript
-client.minds
-  .get("my_mind")
-  .then((mind) => console.log("Mind details:", mind))
-  .catch((error) => console.error("Error:", error));
+try {
+  const mind = await client.minds.get('my_mind');
+  console.log('Mind details:', mind);
+} catch (error) {
+  console.error('Error getting mind:', error);
+}
 ```
 
 ### Deleting a Mind
 
 ```javascript
-client.minds
-  .drop("my_mind")
-  .then(() => console.log("Mind deleted"))
-  .catch((error) => console.error("Error:", error));
+try {
+  await client.minds.drop('my_mind');
+  console.log('Mind deleted');
+} catch (error) {
+  console.error('Error deleting mind:', error);
+}
+```
+
+### Using a Mind for Completion
+
+```javascript
+try {
+  // Synchronous completion
+  const result = await mind.completion('Your query here');
+  console.log('Completion result:', result);
+
+  // Streaming completion
+  await mind.completion('Your query here', true);
+  // This will stream the result to stdout
+} catch (error) {
+  console.error('Error getting completion:', error);
+}
 ```
 
 ## Error Handling
 
-The SDK uses standard Promise-based error handling. Known error types include:
+The SDK uses custom error classes for specific error scenarios:
 
-- `ObjectNotFound`: Thrown when attempting to access a non-existent resource
-- `ObjectNotSupported`: Thrown when attempting to use an unsupported data source type
+- `ObjectNotFound`: Thrown when a requested resource doesn't exist
+- `ObjectNotSupported`: Thrown for unsupported datasource types
+- `Forbidden`: Thrown for permission-related issues
+- `Unauthorized`: Thrown for authentication problems
+- `UnknownError`: Thrown for unclassified errors
 
 ```javascript
+import { ObjectNotFound, ObjectNotSupported } from 'mindsdb_js_sdk/exception';
+
 try {
-  const mind = await client.minds.get("non_existent_mind");
+  const mind = await client.minds.get('non_existent_mind');
 } catch (error) {
   if (error instanceof ObjectNotFound) {
-    console.error("Mind not found");
+    console.error('Mind not found');
+  } else if (error instanceof ObjectNotSupported) {
+    console.error('Unsupported operation');
   } else {
-    console.error("Unexpected error:", error);
+    console.error('Unexpected error:', error);
   }
 }
 ```
 
-## API Reference
+## Notes
 
-### MindsClient
-
-- `constructor(apiKey?: string, baseURL?: string)`: Creates a new client instance
-- `configure({ apiKey, baseURL })`: Static method to set global configuration
-
-### DatasourcesService
-
-- `create(dsConfig: Object, replace?: boolean)`: Create a new data source
-- `list()`: List all data sources
-- `get(name: string)`: Get a data source by name
-- `drop(name: string)`: Delete a data source
-
-### MindsService
-
-- `create(name: string, options: Object, replace?: boolean)`: Create a new mind
-- `list()`: List all minds
-- `get(name: string)`: Get a mind by name
-- `drop(name: string)`: Delete a mind
+- The default prompt template is: "Use your database tools to answer the user's question: {{question}}"
+- The SDK uses OpenAI's client for completions
+- The base project is always set to 'mindsdb'
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
