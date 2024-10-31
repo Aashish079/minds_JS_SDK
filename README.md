@@ -21,15 +21,15 @@ MINDS_API_KEY=your_api_key_here
 ### Initialize the Client
 
 ```javascript
-const { MindsClient } = require('mindsdb_js_sdk');
+const { MindsClient } = require("mindsdb_js_sdk");
 
 // Default connection using https://mdb.ai
 const client = new MindsClient();
 
 // Or specify custom configuration
 MindsClient.configure({
-    apiKey: 'YOUR_API_KEY',
-    baseURL: 'https://custom-url.com'
+  apiKey: "YOUR_API_KEY",
+  baseURL: "https://mdb.ai/api",
 });
 const client = new MindsClient();
 ```
@@ -42,52 +42,59 @@ The SDK supports creating and managing data sources for different database engin
 
 ```javascript
 const datasourceConfig = {
-    name: 'my_postgres_db',
-    engine: 'postgres',
-    description: 'My PostgreSQL database',
-    connectionData: {
-        host: 'localhost',
-        port: 5432,
-        database: 'mydb',
-        user: 'user',
-        password: 'password'
-    },
-    tables: ['table1', 'table2']
+  name: "my_postgres_db",
+  engine: "postgres",
+  description: "My PostgreSQL database",
+  connectionData: {
+    host: "localhost",
+    port: 5432,
+    database: "mydb",
+    user: "user",
+    password: "password",
+  },
+  tables: ["table1", "table2"],
 };
 
 // Create a new data source
-client.dataSource.create(datasourceConfig)
-    .then(datasource => console.log('Data source created:', datasource))
-    .catch(error => console.error('Error:', error));
+client.dataSource
+  .create(datasourceConfig)
+  .then((datasource) => console.log("Data source created:", datasource))
+  .catch((error) => console.error("Error:", error));
 
 // Create or replace existing data source
-client.dataSource.create(datasourceConfig, true)
-    .then(datasource => console.log('Data source created/replaced:', datasource))
-    .catch(error => console.error('Error:', error));
+client.dataSource
+  .create(datasourceConfig, true)
+  .then((datasource) =>
+    console.log("Data source created/replaced:", datasource)
+  )
+  .catch((error) => console.error("Error:", error));
 ```
 
 ### Listing Data Sources
 
 ```javascript
-client.dataSource.list()
-    .then(datasources => console.log('Available data sources:', datasources))
-    .catch(error => console.error('Error:', error));
+client.dataSource
+  .list()
+  .then((datasources) => console.log("Available data sources:", datasources))
+  .catch((error) => console.error("Error:", error));
 ```
 
 ### Getting a Data Source
 
 ```javascript
-client.dataSource.get('my_postgres_db')
-    .then(datasource => console.log('Data source details:', datasource))
-    .catch(error => console.error('Error:', error));
+client.dataSource
+  .get("my_postgres_db")
+  .then((datasource) => console.log("Data source details:", datasource))
+  .catch((error) => console.error("Error:", error));
 ```
 
 ### Deleting a Data Source
 
 ```javascript
-client.dataSource.drop('my_postgres_db')
-    .then(() => console.log('Data source deleted'))
-    .catch(error => console.error('Error:', error));
+client.dataSource
+  .drop("my_postgres_db")
+  .then(() => console.log("Data source deleted"))
+  .catch((error) => console.error("Error:", error));
 ```
 
 ## Managing Minds
@@ -98,48 +105,53 @@ The SDK allows you to create and manage AI models called "minds".
 
 ```javascript
 const mindConfig = {
-    name: 'my_mind',
-    modelName: 'gpt-4',
-    provider: 'openai',
-    parameters: {
-        promptTemplate: 'Your prompt template here'
-    },
-    datasources: ['my_postgres_db']
+  name: "my_mind",
+  modelName: "gpt-4",
+  provider: "openai",
+  parameters: {
+    promptTemplate: "Your prompt template here",
+  },
+  datasources: ["my_postgres_db"],
 };
 
 // Create a new mind
-client.minds.create(mindConfig.name, mindConfig)
-    .then(mind => console.log('Mind created:', mind))
-    .catch(error => console.error('Error:', error));
+client.minds
+  .create(mindConfig.name, mindConfig)
+  .then((mind) => console.log("Mind created:", mind))
+  .catch((error) => console.error("Error:", error));
 
 // Create or replace existing mind
-client.minds.create(mindConfig.name, mindConfig, true)
-    .then(mind => console.log('Mind created/replaced:', mind))
-    .catch(error => console.error('Error:', error));
+client.minds
+  .create(mindConfig.name, mindConfig, true)
+  .then((mind) => console.log("Mind created/replaced:", mind))
+  .catch((error) => console.error("Error:", error));
 ```
 
 ### Listing Minds
 
 ```javascript
-client.minds.list()
-    .then(minds => console.log('Available minds:', minds))
-    .catch(error => console.error('Error:', error));
+client.minds
+  .list()
+  .then((minds) => console.log("Available minds:", minds))
+  .catch((error) => console.error("Error:", error));
 ```
 
 ### Getting a Mind
 
 ```javascript
-client.minds.get('my_mind')
-    .then(mind => console.log('Mind details:', mind))
-    .catch(error => console.error('Error:', error));
+client.minds
+  .get("my_mind")
+  .then((mind) => console.log("Mind details:", mind))
+  .catch((error) => console.error("Error:", error));
 ```
 
 ### Deleting a Mind
 
 ```javascript
-client.minds.drop('my_mind')
-    .then(() => console.log('Mind deleted'))
-    .catch(error => console.error('Error:', error));
+client.minds
+  .drop("my_mind")
+  .then(() => console.log("Mind deleted"))
+  .catch((error) => console.error("Error:", error));
 ```
 
 ## Error Handling
@@ -151,13 +163,13 @@ The SDK uses standard Promise-based error handling. Known error types include:
 
 ```javascript
 try {
-    const mind = await client.minds.get('non_existent_mind');
+  const mind = await client.minds.get("non_existent_mind");
 } catch (error) {
-    if (error instanceof ObjectNotFound) {
-        console.error('Mind not found');
-    } else {
-        console.error('Unexpected error:', error);
-    }
+  if (error instanceof ObjectNotFound) {
+    console.error("Mind not found");
+  } else {
+    console.error("Unexpected error:", error);
+  }
 }
 ```
 

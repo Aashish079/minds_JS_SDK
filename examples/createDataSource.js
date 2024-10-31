@@ -1,21 +1,22 @@
-const MindsClient = require('minds_js_sdk');
+const MindsClient = require('../src/client.js');
 
-const client = new MindsClient("YOUR_API_KEY");
+const client = new MindsClient("mdb_24cLWXfmr1S4e7r0pqkKt3mRqNfHFK6Fn3Em6qJwNIim");
 
 const postgresConfig = {
-    name: 'my_datasource',
-    description: 'Description of your data',
-    engine: 'postgres',
+    name: "house_sales",
+    engine: "postgres",
+    description: "Data about Housing",
     connectionData: {
-        user: 'demo_user',
-        password: 'demo_password',
-        host: 'samples.mindsdb.com',
-        port: 5432,
-        database: 'demo',
-        schema: 'demo_data'
+      user: "demo_user",
+      password: "demo_password",
+      host: "samples.minddb.com",
+      port: 5432,
+      database: "demo",
+      schema: "demo_data",
     },
-    tables: ['TABLE-1', 'TABLE-2']
-};
+  
+    tables: ['house_sales'],
+  };
 
 client.dataSource.create(postgresConfig)
     .then(datasource => console.log('Data source created:', datasource))

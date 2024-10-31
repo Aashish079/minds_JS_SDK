@@ -1,25 +1,27 @@
-const MindsClient = require("minds_js_sdk");
+const MindsClient = require("../src/client");
 
-const client = new MindsClient("YOUR_API_KEY");
+const client = new MindsClient("mdb_24cLWXfmr1S4e7r0pqkKt3mRqNfHFK6Fn3Em6qJwNIim");
 
 const postgresConfig = {
-  name: "car_database",
+  name: "datasource_name",
   engine: "postgres",
-  description: "Data about Cars",
+  description: "Data about Housing",
   connectionData: {
-    user: "aashishkarki",
-    password: "********",
-    host: "0.tcp.in.ngrok.io",
-    port: 17026,
-    database: "car",
-    schema: "car_data",
+    user: "demo_user",
+    password: "demo_password",
+    host: "samples.minddb.com",
+    port: 5432,
+    database: "demo",
+    schema: "demo_data",
   },
+
+  tables: ['house_sales'],
 };
 
 client.dataSource
   .create(postgresConfig)
   .then((datasource) =>
-    client.mind.create({ name: "my_mind", datasources: [datasource] })
+    client.minds.create({ name: "my_mind", datasources: [datasource] })
   )
   .then((mind) => console.log("Mind created:", mind))
   .catch((error) => {

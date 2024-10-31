@@ -12,6 +12,8 @@ class MindsClient{
     constructor(apiKey = config.apiKey, baseURL = config.baseURL){
         this.apiKey = apiKey;
         this.baseURL = baseURL;
+        console.log("apiKey :",apiKey);
+        console.log("baseURL :",baseURL);
         this.client = axios.create({
             baseURL: this.baseURL,
             headers: {'Authorization': `Bearer ${this.apiKey}`}

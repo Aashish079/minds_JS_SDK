@@ -1,5 +1,9 @@
 const Datasource = require('./dataSources');
-
+const {  ObjectNotFound,
+    Forbidden,
+    Unauthorized,
+    UnknownError,
+    ObjectNotSupported } = require('./Exceptions');
 /**
  * Service for managing Datasources.
  */
@@ -62,7 +66,7 @@ class DatasourcesService {
     async get(name) {
         const response = await this.client.get(`/datasources/${name}`);
         const data = response.data;
-
+        console.log("data :",data);
         if (!data.engine) {
             throw new ObjectNotSupported(`Wrong type of datasource: ${name}`);
         }
