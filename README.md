@@ -1,8 +1,11 @@
 # MindsDB JavaScript SDK
 
-This SDK provides an interface to interact with the MindsDB API. It allows you to create and manage "minds" (AI models) and data sources.
-[Demo Video](https://www.youtube.com/watch?v=5MvHgqoLxew)
-[Dev Article](https://dev.to/aashish079/getting-started-with-the-minds-javascript-sdk-18p6)
+This SDK provides an interface to interact with the MindsDB API. It allows you to create and manage "minds" (AI models) and data sources.  
+
+[Demo Video](https://www.youtube.com/watch?v=5MvHgqoLxew)  
+
+[Dev Article](https://dev.to/aashish079/getting-started-with-the-minds-javascript-sdk-18p6)  
+
 
 ## Installation
 
