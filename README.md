@@ -1,16 +1,11 @@
-# MindsDB JavaScript SDK
+# Minds JavaScript SDK
 
-This SDK provides an interface to interact with the MindsDB API. It allows you to create and manage "minds" (AI models) and data sources.  
-
-[Demo Video](https://www.youtube.com/watch?v=5MvHgqoLxew)  
-
-[Dev Article](https://dev.to/aashish079/getting-started-with-the-minds-javascript-sdk-18p6)  
-
+This SDK provides an interface to interact with the Minds AI API. It allows you to create and manage "minds" (AI models) and data sources.
 
 ## Installation
 
 ```bash
-npm install mindsdb_js_sdk
+npm install minds_js_sdk
 ```
 
 ## Configuration
@@ -18,7 +13,7 @@ npm install mindsdb_js_sdk
 The SDK uses environment variables or constructor parameters for configuration:
 
 ```javascript
-import MindsClient from 'mindsdb_js_sdk';
+import MindsClient from 'minds_js_sdk';
 
 // Default configuration (uses MINDS_API_KEY env variable and staging URL)
 const client = new MindsClient();
@@ -46,20 +41,20 @@ const datasourceConfig = {
   tables: ['table1', 'table2']
 };
 
-// Create a new datasource
+// Create a new data source
 try {
   const datasource = await client.datasources.create(datasourceConfig);
-  console.log('Datasource created:', datasource);
+  console.log('Data source created:', datasource);
 } catch (error) {
-  console.error('Error creating datasource:', error);
+  console.error('Error creating data source:', error);
 }
 
-// Create or replace existing datasource
+// Create or replace existing data source
 try {
   const datasource = await client.datasources.create(datasourceConfig, true);
-  console.log('Datasource created/replaced:', datasource);
+  console.log('Data source created/replaced:', datasource);
 } catch (error) {
-  console.error('Error creating/replacing datasource:', error);
+  console.error('Error creating/replacing data source:', error);
 }
 ```
 
@@ -68,9 +63,9 @@ try {
 ```javascript
 try {
   const datasources = await client.datasources.list();
-  console.log('Available datasources:', datasources);
+  console.log('Available data sources:', datasources);
 } catch (error) {
-  console.error('Error listing datasources:', error);
+  console.error('Error listing data sources:', error);
 }
 ```
 
@@ -79,9 +74,9 @@ try {
 ```javascript
 try {
   const datasource = await client.datasources.get('my_postgres_db');
-  console.log('Datasource details:', datasource);
+  console.log('Data source details:', datasource);
 } catch (error) {
-  console.error('Error getting datasource:', error);
+  console.error('Error getting data source:', error);
 }
 ```
 
@@ -90,9 +85,9 @@ try {
 ```javascript
 try {
   await client.datasources.drop('my_postgres_db');
-  console.log('Datasource deleted');
+  console.log('Data source deleted');
 } catch (error) {
-  console.error('Error deleting datasource:', error);
+  console.error('Error deleting data source:', error);
 }
 ```
 
@@ -174,13 +169,13 @@ try {
 The SDK uses custom error classes for specific error scenarios:
 
 - `ObjectNotFound`: Thrown when a requested resource doesn't exist
-- `ObjectNotSupported`: Thrown for unsupported datasource types
+- `ObjectNotSupported`: Thrown for unsupported data source types
 - `Forbidden`: Thrown for permission-related issues
 - `Unauthorized`: Thrown for authentication problems
 - `UnknownError`: Thrown for unclassified errors
 
 ```javascript
-import { ObjectNotFound, ObjectNotSupported } from 'mindsdb_js_sdk/exception';
+import { ObjectNotFound, ObjectNotSupported } from 'minds_js_sdk/exception';
 
 try {
   const mind = await client.minds.get('non_existent_mind');
@@ -199,7 +194,7 @@ try {
 
 - The default prompt template is: "Use your database tools to answer the user's question: {{question}}"
 - The SDK uses OpenAI's client for completions
-- The base project is always set to 'mindsdb'
+- The base project is always set to `'minds'`
 
 ## License
 
